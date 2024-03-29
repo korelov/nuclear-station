@@ -3,6 +3,8 @@ package com.javaacademy.nuclearstation;
 import com.javaacademy.nuclearstation.Exception.NuclearFuelIsEmptyException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -12,6 +14,10 @@ import java.math.BigInteger;
 public class NuclearStation {
     @NonNull
     private ReactorDepartment reactorDepartment;
+    @Autowired
+    @Lazy
+    private SecurityDepartment securityDepartment;
+    private int accidentCountAllTime = 0;
     private BigInteger amountOfEnergyGenerated = new BigInteger("0");
 
     private void startYear() {
@@ -27,12 +33,19 @@ public class NuclearStation {
             }
         }
         amountOfEnergyGenerated = amountOfEnergyGenerated.add(energyPerYear);
+        System.out.printf("Количество инцидентов за год: %d\n", securityDepartment.getAccidentCountPeriod());
         System.out.printf("Атомная станция закончила работу. За год Выработано %s киловатт/часов\n", energyPerYear);
+        securityDepartment.reset();
     }
 
     public void start(int year) {
         for (int i = 0; i < year; i++) {
             startYear();
         }
+        System.out.printf("Количество инцидентов за всю работу станции: %d\n", accidentCountAllTime);
+    }
+
+    public void incrementAccident(int count) {
+        accidentCountAllTime += count;
     }
 }
