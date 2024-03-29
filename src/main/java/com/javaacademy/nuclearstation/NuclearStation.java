@@ -1,8 +1,10 @@
 package com.javaacademy.nuclearstation;
 
 import com.javaacademy.nuclearstation.Exception.NuclearFuelIsEmptyException;
+import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigInteger;
 import java.util.stream.IntStream;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class NuclearStation {
@@ -20,6 +23,11 @@ public class NuclearStation {
     private SecurityDepartment securityDepartment;
     private int accidentCountAllTime = 0;
     private BigInteger amountOfEnergyGenerated = new BigInteger("0");
+
+    @PreDestroy
+    private void destroy() {
+        log.info("Всего выработано {} киловатт/часов", amountOfEnergyGenerated);
+    }
 
     private void startYear() {
         System.out.println("Атомная станция начала работу");
