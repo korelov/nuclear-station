@@ -32,6 +32,7 @@ public class ReactorDepartment {
 
     public void stop() {
         if (!isRunning) {
+            securityDepartment.addAccident();
             throw new ReactorWorkException("Реактор уже выключен");
         }
         isRunning = false;

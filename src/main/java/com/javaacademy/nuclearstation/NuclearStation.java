@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Component
@@ -39,9 +40,7 @@ public class NuclearStation {
     }
 
     public void start(int year) {
-        for (int i = 0; i < year; i++) {
-            startYear();
-        }
+        IntStream.range(0, year).forEach(i -> startYear());
         System.out.printf("Количество инцидентов за всю работу станции: %d\n", accidentCountAllTime);
     }
 
