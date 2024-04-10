@@ -1,5 +1,6 @@
-package com.javaacademy.nuclearstation;
+package com.javaacademy.nuclearstation.department;
 
+import com.javaacademy.nuclearstation.station.NuclearStation;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,9 @@
-package com.javaacademy.nuclearstation;
+package com.javaacademy.nuclearstation.station;
 
-import com.javaacademy.nuclearstation.Exception.NuclearFuelIsEmptyException;
+import com.javaacademy.nuclearstation.department.ReactorDepartment;
+import com.javaacademy.nuclearstation.department.SecurityDepartment;
+import com.javaacademy.nuclearstation.economic.EconomicDepartment;
+import com.javaacademy.nuclearstation.station.Exceptions.NuclearFuelIsEmptyException;
 import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +20,13 @@ import java.util.stream.IntStream;
 @Component
 public class NuclearStation {
     @NonNull
-    private ReactorDepartment reactorDepartment;
+    private final EconomicDepartment economicDepartment;
+    @NonNull
+    private final ReactorDepartment reactorDepartment;
     @Autowired
     @Lazy
     private SecurityDepartment securityDepartment;
-    private int accidentCountAllTime = 0;
+    private int accidentCountAllTime;
     private BigInteger amountOfEnergyGenerated = new BigInteger("0");
 
     @PreDestroy
@@ -30,26 +35,29 @@ public class NuclearStation {
     }
 
     private void startYear() {
-        System.out.println("Атомная станция начала работу");
+        log.info("Атомная станция начала работу");
         BigInteger energyPerYear = new BigInteger("0");
         for (int i = 0; i < 365; i++) {
             try {
                 energyPerYear = energyPerYear.add(reactorDepartment.run());
                 reactorDepartment.stop();
             } catch (NuclearFuelIsEmptyException e) {
-                System.out.println("Внимание! Происходят работы на атомной станции! Электричества нет!");
+                log.warn("Внимание! Происходят работы на атомной станции! Электричества нет!");
                 reactorDepartment.stop();
             }
         }
         amountOfEnergyGenerated = amountOfEnergyGenerated.add(energyPerYear);
-        System.out.printf("Количество инцидентов за год: %d\n", securityDepartment.getAccidentCountPeriod());
-        System.out.printf("Атомная станция закончила работу. За год Выработано %s киловатт/часов\n", energyPerYear);
+        log.info("Количество инцидентов за год: {}", securityDepartment.getAccidentCountPeriod());
+        log.info("Атомная станция закончила работу. За год Выработано {} киловатт/часов", energyPerYear);
+        log.info("Доход за год составил {} {}", economicDepartment.computeYearIncomes(energyPerYear),
+                economicDepartment.getCountryCurrency());
         securityDepartment.reset();
     }
 
     public void start(int year) {
+        log.info("Действие происходит в стране: {}", economicDepartment.getCountryName());
         IntStream.range(0, year).forEach(i -> startYear());
-        System.out.printf("Количество инцидентов за всю работу станции: %d\n", accidentCountAllTime);
+        log.info("Количество инцидентов за всю работу станции: {}", accidentCountAllTime);
     }
 
     public void incrementAccident(int count) {

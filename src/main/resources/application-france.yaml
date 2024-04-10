@@ -1,0 +1,7 @@
+economic:
+  country-name: France
+currency:
+  name: EUR
+  kilowatt-hour-rate: 0.5
+  discount: 0.99
+  kwt-limit: 1_000_000_000

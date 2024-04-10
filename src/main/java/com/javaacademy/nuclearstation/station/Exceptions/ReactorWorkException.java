@@ -1,4 +1,4 @@
-package com.javaacademy.nuclearstation.Exception;
+package com.javaacademy.nuclearstation.station.Exceptions;
 
 import lombok.experimental.StandardException;
 
