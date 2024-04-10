@@ -10,7 +10,7 @@ import java.math.BigInteger;
 
 @Component
 public class ReactorDepartment {
-    private static final long FUEL_LIMIT = 100;
+    private static final int FUEL_LIMIT = 100;
     private static final BigInteger ENERGY_PER_DAY = BigInteger.valueOf(10_000_000);
     private boolean isRunning = false;
     private int numberOfDayLaunches = 0;

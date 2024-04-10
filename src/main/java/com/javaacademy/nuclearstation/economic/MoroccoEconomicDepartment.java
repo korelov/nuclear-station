@@ -23,7 +23,6 @@ public class MoroccoEconomicDepartment extends EconomicDepartment {
                 break;
             }
             BigDecimal kwtLimitCost = kilowattHourRate.multiply(new BigDecimal(kwtLimit));
-            System.out.println(kwtLimitCost);
             totalIncome = totalIncome.add(kwtLimitCost);
             countElectricity = countElectricity.subtract(kwtLimit);
             kilowattHourRate = extraKilowattHourRate;
