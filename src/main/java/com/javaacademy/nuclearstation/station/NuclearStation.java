@@ -3,7 +3,9 @@ package com.javaacademy.nuclearstation.station;
 import com.javaacademy.nuclearstation.department.ReactorDepartment;
 import com.javaacademy.nuclearstation.department.SecurityDepartment;
 import com.javaacademy.nuclearstation.economic.EconomicDepartment;
+import com.javaacademy.nuclearstation.station.Exceptions.AccidentCountException;
 import com.javaacademy.nuclearstation.station.Exceptions.NuclearFuelIsEmptyException;
+import com.javaacademy.nuclearstation.station.Exceptions.YearCountException;
 import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -55,12 +57,18 @@ public class NuclearStation {
     }
 
     public void start(int year) {
+        if (year < 0) {
+            throw new YearCountException("Отрицательное количество лет");
+        }
         log.info("Действие происходит в стране: {}", economicDepartment.getCountryName());
         IntStream.range(0, year).forEach(i -> startYear());
         log.info("Количество инцидентов за всю работу станции: {}", accidentCountAllTime);
     }
 
     public void incrementAccident(int count) {
+        if (count < 0) {
+            throw new AccidentCountException("Количество аварий, не может быть отрицательным");
+        }
         accidentCountAllTime += count;
     }
 }

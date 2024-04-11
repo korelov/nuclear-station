@@ -1,0 +1,7 @@
+economic:
+  country-name: Morocco
+currency:
+  name: AED
+  kilowatt-hour-rate: 5
+  extra-kilowatt-hour-rate: 6
+  kwt-limit: 5_000_000_000
